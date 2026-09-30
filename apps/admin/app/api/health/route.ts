@@ -15,19 +15,36 @@ export async function GET() {
   };
 
   try {
-    await db.$queryRaw`SELECT 1`;
+    const adminUsers = await db.adminUser.count();
     return NextResponse.json(
-      { ok: true, environment, database: "connected" },
+      { ok: true, environment, database: "connected", adminUsers },
       { headers: { "Cache-Control": "no-store" } },
     );
   } catch (error) {
     console.error("[health] Database connection failed", error);
+    const prismaError = error as {
+      code?: unknown;
+      meta?: {
+        driverAdapterError?: {
+          cause?: { kind?: unknown; originalCode?: unknown };
+        };
+      };
+    };
     return NextResponse.json(
       {
         ok: false,
         environment,
         database: "connection_failed",
         errorType: error instanceof Error ? error.name : "UnknownError",
+        prismaCode: typeof prismaError.code === "string" ? prismaError.code : null,
+        databaseCode:
+          typeof prismaError.meta?.driverAdapterError?.cause?.originalCode === "string"
+            ? prismaError.meta.driverAdapterError.cause.originalCode
+            : null,
+        databaseErrorKind:
+          typeof prismaError.meta?.driverAdapterError?.cause?.kind === "string"
+            ? prismaError.meta.driverAdapterError.cause.kind
+            : null,
       },
       { status: 503, headers: { "Cache-Control": "no-store" } },
     );
