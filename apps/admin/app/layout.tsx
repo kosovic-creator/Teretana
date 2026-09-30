@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BarChart3, CreditCard, Dumbbell, LogOut, ScanLine, Users } from "lucide-react";
+import { BarChart3, CreditCard, Dumbbell, LogOut, ScanLine, UserRoundCog, Users } from "lucide-react";
 import { auth, signOut } from "@/auth";
 import "./globals.css";
 
@@ -11,6 +11,7 @@ const navigation = [
   { href: "/members", label: "Članovi", icon: Users },
   { href: "/payments", label: "Uplate", icon: CreditCard },
   { href: "/visits", label: "Dolasci", icon: ScanLine },
+  { href: "/staff", label: "Zaposleni", icon: UserRoundCog },
 ];
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
