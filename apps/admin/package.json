@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "dotenv -e ../../.env -- next dev --port 3000",
+    "prebuild": "pnpm --filter @puls/database generate",
     "build": "dotenv -e ../../.env -- next build",
     "start": "dotenv -e ../../.env -- next start --port 3000",
     "lint": "next lint",

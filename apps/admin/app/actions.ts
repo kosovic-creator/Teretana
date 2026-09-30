@@ -1,6 +1,6 @@
 "use server";
 
-import { db, MembershipPlan, PaymentMethod } from "@puls/database";
+import { db } from "@puls/database";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
@@ -11,7 +11,7 @@ const memberSchema = z.object({
   lastName: z.string().trim().min(2),
   email: z.union([z.string().trim().email(), z.literal("")]).transform((value) => value || undefined),
   phone: optionalText,
-  plan: z.nativeEnum(MembershipPlan),
+  plan: z.enum(["MONTHLY", "QUARTERLY", "YEARLY"]),
   expiresAt: z.string().optional(),
 });
 
@@ -32,7 +32,7 @@ export async function createMember(formData: FormData) {
 const paymentSchema = z.object({
   memberId: z.string().min(1),
   amount: z.coerce.number().positive(),
-  method: z.nativeEnum(PaymentMethod),
+  method: z.enum(["CASH", "CARD", "TRANSFER"]),
   expiresAt: z.string().optional(),
 });
 
