@@ -12,6 +12,9 @@ export async function loginAction(_state: string | undefined, formData: FormData
     });
   } catch (error) {
     if (error instanceof AuthError) {
+      if (error.type !== "CredentialsSignin") {
+        return "Prijava trenutno nije dostupna. Provjeri vezu sa bazom i Vercel varijable.";
+      }
       return "Email ili lozinka nijesu ispravni.";
     }
     throw error;
