@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "../generated/client/client";
 import { PrismaNeon } from "@prisma/adapter-neon";
 
 const databaseUrl = process.env.DATABASE_URL?.trim();
@@ -22,4 +22,4 @@ export const db =
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = db;
 
-export * from "@prisma/client";
+export * from "../generated/client/client";
