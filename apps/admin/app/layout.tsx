@@ -1,10 +1,19 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { BarChart3, CreditCard, Dumbbell, LogOut, ScanLine, UserRoundCog, Users } from "lucide-react";
 import { auth, signOut } from "@/auth";
+import { Pwa } from "@/components/pwa";
 import "./globals.css";
 
-export const metadata: Metadata = { title: "Puls Admin", description: "Administracija teretane" };
+export const metadata: Metadata = {
+  title: "Puls Admin",
+  description: "Administracija teretane",
+  applicationName: "Puls",
+  appleWebApp: { capable: true, title: "Puls", statusBarStyle: "default" },
+  icons: { icon: "/icons/icon-192.png", apple: "/icons/apple-touch-icon.png" },
+};
+
+export const viewport: Viewport = { themeColor: "#131b16" };
 
 const navigation = [
   { href: "/", label: "Pregled", icon: BarChart3 },
@@ -16,10 +25,11 @@ const navigation = [
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const session = await auth();
-  if (!session?.user) return <html lang="sr-Latn"><body>{children}</body></html>;
+  if (!session?.user) return <html lang="sr-Latn"><body><Pwa />{children}</body></html>;
   return (
     <html lang="sr-Latn">
       <body>
+        <Pwa />
         <div className="min-h-screen md:grid md:grid-cols-[240px_1fr]">
           <aside className="bg-[#131b16] px-5 py-7 text-white">
             <Link href="/" className="flex items-center gap-3 text-xl font-extrabold">
