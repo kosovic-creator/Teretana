@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum MembershipPlan {
+  MONTHLY
+  QUARTERLY
+  YEARLY
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
+  TRANSFER
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Member {
+  id         String         @id @default(cuid())
+  firstName  String
+  lastName   String
+  email      String?        @unique
+  phone      String?
+  plan       MembershipPlan @default(MONTHLY)
+  expiresAt  DateTime?
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  payments   Payment[]
+  visits     Visit[]
+
+  @@index([lastName, firstName])
+  @@index([expiresAt])
+}
+
+model Payment {
+  id        String        @id @default(cuid())
+  amount    Decimal       @db.Decimal(10, 2)
+  method    PaymentMethod @default(CASH)
+  paidAt    DateTime      @default(now())
+  note      String?
+  memberId  String
+  member    Member        @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  createdAt DateTime      @default(now())
+
+  @@index([memberId, paidAt])
+}
+
+model Visit {
+  id        String   @id @default(cuid())
+  checkedIn DateTime @default(now())
+  memberId  String
+  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@index([memberId, checkedIn])
+}

@@ -1,0 +1,23 @@
+{
+  "name": "puls-gym",
+  "private": true,
+  "packageManager": "pnpm@10.33.2",
+  "scripts": {
+    "dev": "pnpm --filter @puls/admin dev",
+    "dev:admin": "pnpm --filter @puls/admin dev",
+    "build": "pnpm --filter @puls/database generate && pnpm --filter @puls/admin build",
+    "lint": "pnpm --filter @puls/admin lint",
+    "typecheck": "pnpm --filter @puls/admin typecheck",
+    "db:generate": "pnpm --filter @puls/database generate",
+    "db:push": "pnpm --filter @puls/database db:push",
+    "db:migrate": "pnpm --filter @puls/database migrate",
+    "auth:create-admin": "pnpm --filter @puls/database create-admin",
+    "db:studio": "pnpm --filter @puls/database studio"
+  },
+  "devDependencies": {
+    "dotenv-cli": "^10.0.0",
+    "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "typescript": "^5.9.2"
+  }
+}
