@@ -6,7 +6,7 @@ import { createPayment } from "@/app/actions";
 import { Button } from "@puls/ui/components/button";
 import { Input } from "@puls/ui/components/input";
 
-type Plan = "MONTHLY" | "QUARTERLY" | "YEARLY";
+type Plan = "MJESEČNO" | "TROMJESEČNO" | "GODIŠNJE";
 type MemberOption = {
   id: string;
   firstName: string;
@@ -16,9 +16,9 @@ type MemberOption = {
 };
 
 const planDetails: Record<Plan, { label: string; months: number; amount: number }> = {
-  MONTHLY: { label: "Mjesečna", months: 1, amount: 30 },
-  QUARTERLY: { label: "Tromjesečna", months: 3, amount: 80 },
-  YEARLY: { label: "Godišnja", months: 12, amount: 280 },
+  MJESEČNO: { label: "Mjesečna", months: 1, amount: 30 },
+  TROMJESEČNO: { label: "Tromjesečna", months: 3, amount: 80 },
+  GODIŠNJE: { label: "Godišnja", months: 12, amount: 280 },
 };
 
 const today = () => {
