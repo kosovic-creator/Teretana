@@ -13,7 +13,7 @@ Next.js App Router, TypeScript, pnpm workspaces, PostgreSQL, Prisma ORM, Server 
 ## Prvo pokretanje
 
 Kopiraj `.env.example` kao `.env`, a zatim pokreni PostgreSQL. Ako koristiš Docker:
-
+s
 ```powershell
 Copy-Item .env.example .env
 docker compose up -d
