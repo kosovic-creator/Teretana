@@ -3,8 +3,8 @@ import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/",
-    name: "Puls — Administracija teretane",
-    short_name: "Puls",
+    name: "Hulk23 — Administracija teretane",
+    short_name: "Hulk23",
     description: "Administracija članova, uplata i dolazaka u teretanu",
     lang: "sr-Latn",
     start_url: "/",

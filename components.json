@@ -10,10 +10,10 @@
     "cssVariables": true
   },
   "aliases": {
-    "components": "@puls/ui/components",
-    "utils": "@puls/ui/lib/utils",
-    "ui": "@puls/ui/components",
-    "lib": "@puls/ui/lib",
-    "hooks": "@puls/ui/hooks"
+    "components": "@hulk23/ui/components",
+    "utils": "@hulk23/ui/lib/utils",
+    "ui": "@hulk23/ui/components",
+    "lib": "@hulk23/ui/lib",
+    "hooks": "@hulk23/ui/hooks"
   }
 }

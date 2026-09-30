@@ -1,18 +1,18 @@
 {
-  "name": "@puls/admin",
+  "name": "@hulk23/admin",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "dev": "dotenv -e ../../.env -- next dev --port 3000",
-    "prebuild": "pnpm --filter @puls/database generate",
+    "prebuild": "pnpm --filter @hulk23/database generate",
     "build": "dotenv -e ../../.env -- next build",
     "start": "dotenv -e ../../.env -- next start --port 3000",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@puls/database": "workspace:*",
-    "@puls/ui": "workspace:*",
+    "@hulk23/database": "workspace:*",
+    "@hulk23/ui": "workspace:*",
     "bcryptjs": "^3.0.2",
     "lucide-react": "^0.544.0",
     "next": "^15.5.4",

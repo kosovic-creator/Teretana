@@ -2,8 +2,8 @@
 
 import { useActionState } from "react";
 import { LoaderCircle, UserPlus } from "lucide-react";
-import { Button } from "@puls/ui/components/button";
-import { Input } from "@puls/ui/components/input";
+import { Button } from "@hulk23/ui/components/button";
+import { Input } from "@hulk23/ui/components/input";
 import { createStaff, type CreateStaffState } from "../actions";
 
 const initialState: CreateStaffState = {};

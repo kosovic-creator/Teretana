@@ -1,4 +1,4 @@
-import { db } from "@puls/database";
+import { db } from "@hulk23/database";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";

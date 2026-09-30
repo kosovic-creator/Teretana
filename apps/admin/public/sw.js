@@ -1,4 +1,4 @@
-const CACHE_NAME = "puls-offline-v1";
+const CACHE_NAME = "hulk23-offline-v1";
 const OFFLINE_URL = "/offline.html";
 
 self.addEventListener("install", (event) => {
@@ -11,7 +11,7 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(
     Promise.all([
       caches.keys().then((keys) => Promise.all(
-        keys.filter((key) => key.startsWith("puls-offline-") && key !== CACHE_NAME)
+        keys.filter((key) => key.startsWith("hulk23-offline-") && key !== CACHE_NAME)
           .map((key) => caches.delete(key)),
       )),
       self.clients.claim(),

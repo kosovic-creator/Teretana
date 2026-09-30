@@ -45,7 +45,7 @@ export function Pwa() {
         }
       }}
     >
-      <Download className="size-4" aria-hidden="true" /> Instaliraj Puls
+      <Download className="size-4" aria-hidden="true" /> Instaliraj Hulk23
     </button>
   );
 }

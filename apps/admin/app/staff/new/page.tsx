@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@puls/ui/components/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@hulk23/ui/components/card";
 import { PageHeader } from "@/components/page-header";
 import { StaffForm } from "./staff-form";
 

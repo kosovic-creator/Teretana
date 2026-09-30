@@ -1,6 +1,6 @@
-import { Button } from "@puls/ui/components/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@puls/ui/components/card";
-import { Input } from "@puls/ui/components/input";
+import { Button } from "@hulk23/ui/components/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@hulk23/ui/components/card";
+import { Input } from "@hulk23/ui/components/input";
 import { PageHeader } from "@/components/page-header";
 import { createMember } from "@/app/actions";
 

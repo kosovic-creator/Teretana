@@ -2,8 +2,8 @@
 
 import { useActionState } from "react";
 import { LoaderCircle, LogIn } from "lucide-react";
-import { Button } from "@puls/ui/components/button";
-import { Input } from "@puls/ui/components/input";
+import { Button } from "@hulk23/ui/components/button";
+import { Input } from "@hulk23/ui/components/input";
 import { loginAction } from "./actions";
 
 export function LoginForm({ callbackUrl }: { callbackUrl: string }) {

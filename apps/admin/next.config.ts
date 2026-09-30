@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
       ],
     }];
   },
-  transpilePackages: ["@puls/ui", "@puls/database"],
+  transpilePackages: ["@hulk23/ui", "@hulk23/database"],
   outputFileTracingRoot: path.join(process.cwd(), "../.."),
   outputFileTracingIncludes: {
     "/*": ["../../packages/database/generated/client/**/*"],

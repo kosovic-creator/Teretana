@@ -1,4 +1,4 @@
-import { db } from "@puls/database";
+import { db } from "@hulk23/database";
 
 export async function getDashboardData() {
   try {

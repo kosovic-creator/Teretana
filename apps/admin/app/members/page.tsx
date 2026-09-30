@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Plus, Users } from "lucide-react";
-import { Button } from "@puls/ui/components/button";
-import { Badge } from "@puls/ui/components/badge";
-import { Card, CardContent } from "@puls/ui/components/card";
+import { Button } from "@hulk23/ui/components/button";
+import { Badge } from "@hulk23/ui/components/badge";
+import { Card, CardContent } from "@hulk23/ui/components/card";
 import { PageHeader } from "@/components/page-header";
 import { getMembers } from "@/lib/data";
 

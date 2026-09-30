@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@puls/database";
+import { db } from "@hulk23/database";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";

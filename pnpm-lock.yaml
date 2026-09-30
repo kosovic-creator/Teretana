@@ -23,10 +23,10 @@ importers:
 
   apps/admin:
     dependencies:
-      '@puls/database':
+      '@hulk23/database':
         specifier: workspace:*
         version: link:../../packages/database
-      '@puls/ui':
+      '@hulk23/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       bcryptjs:
