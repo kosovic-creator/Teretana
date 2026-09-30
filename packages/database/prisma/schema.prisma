@@ -13,9 +13,9 @@ datasource db {
 }
 
 enum MembershipPlan {
-  MONTHLY
-  QUARTERLY
-  YEARLY
+  MJESEČNO
+  TROMJESEČNO
+  GODIŠNJE
 }
 
 enum PaymentMethod {
@@ -34,17 +34,17 @@ model AdminUser {
 }
 
 model Member {
-  id         String         @id @default(cuid())
-  firstName  String
-  lastName   String
-  email      String?        @unique
-  phone      String?
-  plan       MembershipPlan @default(MONTHLY)
-  expiresAt  DateTime?
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime       @updatedAt
-  payments   Payment[]
-  visits     Visit[]
+  id        String         @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String?        @unique
+  phone     String?
+  plan      MembershipPlan @default(MJESEČNO)
+  expiresAt DateTime?
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  payments  Payment[]
+  visits    Visit[]
 
   @@index([lastName, firstName])
   @@index([expiresAt])

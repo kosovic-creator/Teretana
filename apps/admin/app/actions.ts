@@ -11,7 +11,7 @@ const memberSchema = z.object({
   lastName: z.string().trim().min(2),
   email: z.union([z.string().trim().email(), z.literal("")]).transform((value) => value || undefined),
   phone: optionalText,
-  plan: z.enum(["MONTHLY", "QUARTERLY", "YEARLY"]),
+  plan: z.enum(["MJESEČNO", "TROMJESEČNO", "GODIŠNJE"]),
   expiresAt: z.string().optional(),
 });
 
