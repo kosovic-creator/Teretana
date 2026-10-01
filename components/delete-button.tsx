@@ -24,7 +24,13 @@ export function DeleteButton({ field, value, action }: { field: string; value: s
     return (
         <form action={action}>
             <input type="hidden" name={field} value={value} />
-            <Button type="button" variant="destructive" size="sm" onClick={() => setIsConfirming(true)}>
+            <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="border-red-700/60 bg-red-950/30 text-red-200 hover:border-red-500 hover:bg-red-950/50"
+                onClick={() => setIsConfirming(true)}
+            >
                 <Trash2 className="size-4" />Obriši
             </Button>
             {isConfirming && (
