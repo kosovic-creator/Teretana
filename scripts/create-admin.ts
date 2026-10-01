@@ -1,5 +1,5 @@
 import { hash } from "bcryptjs";
-import { db } from "../src";
+import { db } from "../lib/db";
 
 async function main() {
   const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();

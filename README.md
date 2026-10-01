@@ -1,19 +1,15 @@
-# Hulk23 Teretana admin monorepo
+# Hulk23 Teretana
 
-Administrativni sistem za vođenje teretane:
-
-- `apps/admin` — administracija članova, uplata i dolazaka, port `3000`
-- `packages/database` — PostgreSQL Prisma šema i zajednički klijent
-- `packages/ui` — zajedničke shadcn/ui komponente
+Administrativni sistem za vođenje članova, zaposlenih, uplata i dolazaka u teretani. Aplikacija je jedna Next.js aplikacija; nema zaseban Client projekat.
 
 ## Tehnologije
 
-Next.js App Router, TypeScript, pnpm workspaces, PostgreSQL, Prisma ORM, Server Actions, Tailwind CSS i shadcn/ui struktura.
+Next.js App Router, TypeScript, PostgreSQL, Prisma ORM, Server Actions, Tailwind CSS i shadcn/ui komponente.
 
 ## Prvo pokretanje
 
 Kopiraj `.env.example` kao `.env`, a zatim pokreni PostgreSQL. Ako koristiš Docker:
-s
+
 ```powershell
 Copy-Item .env.example .env
 docker compose up -d
@@ -31,12 +27,11 @@ Za autentifikaciju postavi `AUTH_SECRET`, `ADMIN_EMAIL` i `ADMIN_PASSWORD` u `.e
 ## Komande
 
 ```powershell
-pnpm.cmd dev          # admin aplikacija
-pnpm.cmd dev:admin    # isto, eksplicitna komanda
-pnpm.cmd typecheck    # TypeScript provjera
-pnpm.cmd build        # produkcijski build
-pnpm.cmd db:studio    # Prisma Studio
-pnpm.cmd auth:create-admin # kreiranje/reset administratorskog naloga
+pnpm.cmd dev                  # razvojni server
+pnpm.cmd typecheck            # TypeScript provjera
+pnpm.cmd build                # produkcijski build
+pnpm.cmd db:studio            # Prisma Studio
+pnpm.cmd auth:create-admin    # kreiranje/reset administratorskog naloga
 ```
 
 Podaci se više ne čuvaju u pregledniku. Admin forme koriste Next.js Server Actions i zapisuju ih u PostgreSQL preko Prisma ORM-a.
@@ -51,7 +46,7 @@ Provjera produkcijske aplikacije:
 
 ```powershell
 pnpm.cmd build
-pnpm.cmd --filter @hulk23/admin start
+pnpm.cmd start
 ```
 
-Service worker se registruje samo u produkciji. Kešira isključivo javni ekran `offline.html`, koji se prikazuje ako otvaranje stranice ne uspije zbog prekida veze. Članovi, uplate, dolasci, prijava i izmjene zahtijevaju dostupan server i bazu; privatne stranice i API odgovori se ne čuvaju u PWA kešu. Za novu verziju offline ekrana promijeni `CACHE_NAME` u `apps/admin/public/sw.js`.
+Service worker se registruje samo u produkciji. Kešira isključivo javni ekran `offline.html`, koji se prikazuje ako otvaranje stranice ne uspije zbog prekida veze. Članovi, uplate, dolasci, prijava i izmjene zahtijevaju dostupan server i bazu; privatne stranice i API odgovori se ne čuvaju u PWA kešu. Za novu verziju offline ekrana promijeni `CACHE_NAME` u `public/sw.js`.

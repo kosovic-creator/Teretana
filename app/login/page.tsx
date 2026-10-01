@@ -1,5 +1,5 @@
 import { Dumbbell } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@hulk23/ui/components/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LoginForm } from "./login-form";
 
 export default async function LoginPage({ searchParams }: { searchParams: Promise<{ callbackUrl?: string }> }) {

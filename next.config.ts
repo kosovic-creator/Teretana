@@ -1,5 +1,4 @@
 import type { NextConfig } from "next";
-import path from "node:path";
 
 const nextConfig: NextConfig = {
   async headers() {
@@ -12,10 +11,8 @@ const nextConfig: NextConfig = {
       ],
     }];
   },
-  transpilePackages: ["@hulk23/ui", "@hulk23/database"],
-  outputFileTracingRoot: path.join(process.cwd(), "../.."),
   outputFileTracingIncludes: {
-    "/*": ["../../packages/database/generated/client/**/*"],
+    "/*": ["./generated/client/**/*"],
   },
 };
 

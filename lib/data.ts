@@ -1,4 +1,4 @@
-import { db } from "@hulk23/database";
+import { db } from "@/lib/db";
 
 export async function getDashboardData() {
   try {

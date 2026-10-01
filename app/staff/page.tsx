@@ -2,9 +2,9 @@ import Link from "next/link";
 import { Plus, UserRoundCog } from "lucide-react";
 import { auth } from "@/auth";
 import { PageHeader } from "@/components/page-header";
-import { db } from "@hulk23/database";
-import { Button } from "@hulk23/ui/components/button";
-import { Card, CardContent } from "@hulk23/ui/components/card";
+import { db } from "@/lib/db";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";

@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
 import { z } from "zod";
-import { db } from "@hulk23/database";
+import { db } from "@/lib/db";
 import authConfig from "./auth.config";
 
 const authSecret = process.env.AUTH_SECRET?.trim().replace(/^(["'])(.*)\1$/, "$2");

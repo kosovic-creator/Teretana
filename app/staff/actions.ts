@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@/auth";
-import { db } from "@hulk23/database";
+import { db } from "@/lib/db";
 import { hash } from "bcryptjs";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";

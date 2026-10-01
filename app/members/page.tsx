@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Plus, Users } from "lucide-react";
-import { Button } from "@hulk23/ui/components/button";
-import { Badge } from "@hulk23/ui/components/badge";
-import { Card, CardContent } from "@hulk23/ui/components/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import { PageHeader } from "@/components/page-header";
 import { getMembers } from "@/lib/data";
 

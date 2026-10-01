@@ -1,7 +1,7 @@
 import { PageHeader } from "@/components/page-header";
 import { PaymentForm } from "@/components/payment-form";
 import { getMembers } from "@/lib/data";
-import { Card, CardContent, CardHeader, CardTitle } from "@hulk23/ui/components/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const dynamic = "force-dynamic";
 export default async function PaymentsPage() {

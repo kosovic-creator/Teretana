@@ -3,8 +3,8 @@
 import { useMemo, useState } from "react";
 import { CalendarDays, CreditCard, UserRound } from "lucide-react";
 import { createPayment } from "@/app/actions";
-import { Button } from "@hulk23/ui/components/button";
-import { Input } from "@hulk23/ui/components/input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 type Plan = "MJESEČNO" | "TROMJESEČNO" | "GODIŠNJE";
 type MemberOption = {

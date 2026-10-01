@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@hulk23/ui/components/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AlertCircle, CreditCard, ScanLine, UserCheck, Users } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 import { getDashboardData } from "@/lib/data";

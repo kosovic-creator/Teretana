@@ -1,6 +1,6 @@
-import { Button } from "@hulk23/ui/components/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@hulk23/ui/components/card";
-import { Input } from "@hulk23/ui/components/input";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { PageHeader } from "@/components/page-header";
 import { createMember } from "@/app/actions";
 
