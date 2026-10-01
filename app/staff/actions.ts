@@ -90,3 +90,62 @@ export async function createStaff(
   revalidatePath("/staff");
   redirect("/staff?created=1");
 }
+
+export async function updateStaff(formData: FormData) {
+  const session = await auth();
+  if (!session?.user?.email) redirect("/login");
+
+  const staffId = z.string().min(1).parse(formData.get("staffId"));
+  const parsed = z.object({
+    name: z.string().trim().min(2, "Ime i prezime mora imati najmanje 2 slova.").max(100, "Ime i prezime može imati najviše 100 znakova."),
+    email: z.string().trim().toLowerCase().pipe(z.email("Email nije ispravan.")),
+  }).safeParse(Object.fromEntries(formData));
+
+  if (!parsed.success) {
+    const fieldErrors: Record<string, string> = {};
+    for (const issue of parsed.error.issues) {
+      const field = String(issue.path[0] ?? "form");
+      fieldErrors[field] ??= issue.message;
+    }
+    redirect(`/staff/${staffId}/edit?fieldErrors=${encodeURIComponent(JSON.stringify(fieldErrors))}`);
+  }
+
+  const [currentUser, targetUser, existingEmail] = await Promise.all([
+    db.adminUser.findUnique({ where: { email: session.user.email }, select: { id: true } }),
+    db.adminUser.findUnique({ where: { id: staffId }, select: { id: true, email: true } }),
+    db.adminUser.findUnique({ where: { email: parsed.data.email }, select: { id: true } }),
+  ]);
+
+  if (!currentUser) redirect("/login");
+  if (!targetUser) redirect("/staff");
+
+  const fieldErrors: Record<string, string> = {};
+  if (existingEmail && existingEmail.id !== staffId) fieldErrors.email = "Nalog s ovim emailom već postoji.";
+  if (currentUser.id === staffId && parsed.data.email !== targetUser.email) {
+    fieldErrors.email = "Email aktivnog naloga ne može se promijeniti ovdje.";
+  }
+  if (Object.keys(fieldErrors).length) {
+    redirect(`/staff/${staffId}/edit?fieldErrors=${encodeURIComponent(JSON.stringify(fieldErrors))}`);
+  }
+
+  await db.adminUser.update({ where: { id: staffId }, data: parsed.data });
+  revalidatePath("/staff");
+  redirect("/staff?updated=1");
+}
+
+export async function deleteStaff(formData: FormData) {
+  const session = await auth();
+  if (!session?.user?.email) redirect("/login");
+
+  const staffId = z.string().min(1).parse(formData.get("staffId"));
+  const currentUser = await db.adminUser.findUnique({
+    where: { email: session.user.email },
+    select: { id: true },
+  });
+  if (!currentUser) redirect("/login");
+  if (currentUser.id === staffId) redirect("/staff?error=self-delete");
+
+  await db.adminUser.delete({ where: { id: staffId } });
+  revalidatePath("/staff");
+  redirect("/staff?deleted=1");
+}

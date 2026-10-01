@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { CalendarDays, CreditCard, UserRound } from "lucide-react";
+import { CalendarDays, CreditCard, UserRound, X } from "lucide-react";
 import { createPayment } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -123,8 +123,11 @@ export function PaymentForm({ members, errorMessage, fieldErrors = {} }: Payment
         <Input name="expiresAt" type="date" value={expiresAt} onChange={(event) => setExpiresAt(event.target.value)} required aria-invalid={Boolean(fieldErrors.expiresAt)} />
         {fieldErrors.expiresAt && <span className="text-xs font-medium text-red-600">{fieldErrors.expiresAt}</span>}
       </label>
-      <div className="self-end">
+      <div className="flex items-center gap-2 self-end sm:col-span-2">
         <Button disabled={!memberId} type="submit">Sačuvaj uplatu</Button>
+        <Button asChild variant="outline" type="button">
+          <a href="/payments"><X className="size-4" />Odustani</a>
+        </Button>
       </div>
       {selectedMember && expiresAt && (
         <p className="rounded-lg bg-green-50 px-3 py-2 text-sm text-green-800 sm:col-span-2">

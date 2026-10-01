@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { LoaderCircle, UserPlus } from "lucide-react";
+import { LoaderCircle, UserPlus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createStaff, type CreateStaffState } from "../actions";
@@ -60,10 +60,15 @@ export function StaffForm() {
         />
         {state.fieldErrors?.confirmPassword && <span className="text-xs font-medium text-red-600">{state.fieldErrors.confirmPassword}</span>}
       </label>
-      <Button type="submit" disabled={pending}>
-        {pending ? <LoaderCircle className="size-4 animate-spin" /> : <UserPlus className="size-4" />}
-        {pending ? "Kreiranje..." : "Kreiraj zaposlenog"}
-      </Button>
+      <div className="flex gap-2">
+        <Button type="submit" disabled={pending}>
+          {pending ? <LoaderCircle className="size-4 animate-spin" /> : <UserPlus className="size-4" />}
+          {pending ? "Kreiranje..." : "Kreiraj zaposlenog"}
+        </Button>
+        <Button asChild variant="outline" type="button">
+          <a href="/staff"><X className="size-4" />Odustani</a>
+        </Button>
+      </div>
     </form>
   );
 }

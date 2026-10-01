@@ -1,3 +1,4 @@
+import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -30,7 +31,10 @@ export default async function NewMemberPage({ searchParams }: { searchParams: Pr
             <Field label="Telefon" error={parsedFieldErrors.phone}><Input name="phone" aria-invalid={Boolean(parsedFieldErrors.phone)} /></Field>
             <Field label="Plan" error={parsedFieldErrors.plan}><select name="plan" className="h-10 w-full rounded-lg border bg-background px-3 text-sm" aria-invalid={Boolean(parsedFieldErrors.plan)}><option value="MJESEČNO">Mjesečna</option><option value="TROMJESEČNO">Tromjesečna</option><option value="GODIŠNJE">Godišnja</option></select></Field>
             <Field label="Članarina do" error={parsedFieldErrors.expiresAt}><Input name="expiresAt" type="date" aria-invalid={Boolean(parsedFieldErrors.expiresAt)} /></Field>
-            <div className="sm:col-span-2"><Button type="submit">Sačuvaj člana</Button></div>
+            <div className="flex gap-2 sm:col-span-2">
+              <Button type="submit">Sačuvaj člana</Button>
+              <Button asChild variant="outline"><a href="/members"><X className="size-4" />Odustani</a></Button>
+            </div>
           </form>
         </CardContent>
       </Card>
