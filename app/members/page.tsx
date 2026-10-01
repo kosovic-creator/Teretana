@@ -67,7 +67,7 @@ export default async function MembersPage() {
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between gap-3 md:gap-4 md:flex-col md:items-end">
+                    <div className="flex min-w-0 flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between md:items-end">
                       <Badge
                         className={
                           active ? "border-emerald-600/40 bg-emerald-900/60 text-emerald-100" : "border-red-700/40 bg-red-950/50 text-red-100"
@@ -76,7 +76,7 @@ export default async function MembersPage() {
                         {active ? "Aktivna" : "Istekla"}
                       </Badge>
 
-                      <div className="flex items-center gap-2">
+                      <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto">
                         <Button asChild variant="outline" size="sm">
                           <Link href={`/members/${member.id}/edit`}>
                             <Pencil className="size-4" />

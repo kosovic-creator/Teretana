@@ -25,7 +25,8 @@ const navigation = [
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const session = await auth();
-  if (!session?.user) return <html lang="sr-Latn"><body><Pwa />{children}</body></html>;
+  const footer = <footer className="mt-auto border-t border-emerald-900/30 px-4 py-5 text-center text-xs text-emerald-100/50">Copyright Drasko Kosovic 2026</footer>;
+  if (!session?.user) return <html lang="sr-Latn"><body className="flex min-h-screen flex-col"><Pwa /><main className="flex-1">{children}</main>{footer}</body></html>;
   return (
     <html lang="sr-Latn">
       <body>
@@ -65,7 +66,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
               </div>
             </div>
           </aside>
-          <main className="min-w-0 flex-1 px-2 py-3 md:px-4 md:py-6">{children}</main>
+          <main className="flex min-w-0 flex-1 flex-col px-2 py-3 md:px-4 md:py-6">{children}{footer}</main>
         </div>
       </body>
     </html>
