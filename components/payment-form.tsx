@@ -70,8 +70,8 @@ export function PaymentForm({ members, errorMessage, fieldErrors = {} }: Payment
       : "Istekla";
 
   return (
-    <form action={createPayment} className="grid gap-5 sm:grid-cols-2" noValidate>
-      <label className="grid gap-2 text-sm font-semibold sm:col-span-2">
+    <form action={createPayment} className="grid gap-5" noValidate>
+      <label className="grid gap-2 text-sm font-semibold">
         Član
         <select
           name="memberId"
@@ -88,7 +88,7 @@ export function PaymentForm({ members, errorMessage, fieldErrors = {} }: Payment
       </label>
 
       {selectedMember && (
-        <div className="grid gap-3 rounded-xl border bg-muted/40 p-4 sm:col-span-2 sm:grid-cols-3">
+        <div className="grid gap-3 rounded-xl border bg-muted/40 p-4">
           <MemberInfo icon={UserRound} label="Plan" value={planDetails[selectedMember.plan].label} />
           <MemberInfo icon={CalendarDays} label="Trenutno važi do" value={formatDate(selectedMember.expiresAt)} />
           <MemberInfo icon={CreditCard} label="Status" value={currentStatus} />
@@ -123,14 +123,14 @@ export function PaymentForm({ members, errorMessage, fieldErrors = {} }: Payment
         <Input name="expiresAt" type="date" value={expiresAt} onChange={(event) => setExpiresAt(event.target.value)} required aria-invalid={Boolean(fieldErrors.expiresAt)} />
         {fieldErrors.expiresAt && <span className="text-xs font-medium text-red-600">{fieldErrors.expiresAt}</span>}
       </label>
-      <div className="flex items-center gap-2 self-end sm:col-span-2">
+      <div className="flex flex-wrap items-center gap-2 self-end">
         <Button disabled={!memberId} type="submit">Sačuvaj uplatu</Button>
         <Button asChild variant="outline" type="button">
           <a href="/payments"><X className="size-4" />Odustani</a>
         </Button>
       </div>
       {selectedMember && expiresAt && (
-        <p className="rounded-lg bg-green-50 px-3 py-2 text-sm text-green-800 sm:col-span-2">
+        <p className="rounded-lg bg-green-50 px-3 py-2 text-sm text-green-800">
           Nakon uplate članarina će važiti do <strong>{formatDate(expiresAt)}</strong>.
         </p>
       )}
