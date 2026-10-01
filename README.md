@@ -24,6 +24,18 @@ Ako PostgreSQL već postoji, u `.env` postavi svoj `DATABASE_URL` i pokreni `pnp
 
 Za autentifikaciju postavi `AUTH_SECRET`, `ADMIN_EMAIL` i `ADMIN_PASSWORD` u `.env`. Komanda `auth:create-admin` kreira novog administratora ili mijenja lozinku postojećeg administratora. Lozinka se u bazi čuva kao bcrypt hash.
 
+## SMS upozorenja za istek članarine
+
+Za slanje SMS-a postavi `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN` i `TWILIO_FROM_NUMBER` u `.env`. Brojevi članova trebaju biti uneseni u međunarodnom formatu, npr. `+387...`. `MEMBERSHIP_TIME_ZONE` određuje lokalni datum isteka (podrazumijevano `Europe/Sarajevo`).
+
+Postavi `CRON_SECRET` kao nasumičnu tajnu i podesi cron servis da jednom dnevno pozove `GET /api/cron/membership-reminders` uz zaglavlje `Authorization: Bearer <CRON_SECRET>`. Primjer poziva:
+
+```powershell
+Invoke-WebRequest -Method Get -Uri "https://tvoja-domena/api/cron/membership-reminders" -Headers @{ Authorization = "Bearer $env:CRON_SECRET" }
+```
+
+Ruta šalje poruku članovima čije članstvo ističe narednog lokalnog dana. Ponovni poziv za isti datum ne šalje ponovo već evidentirane poruke; nakon uspješne obnove članarine upozorenje se šalje za novi datum isteka.
+
 ## Komande
 
 ```powershell

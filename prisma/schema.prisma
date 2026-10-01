@@ -34,17 +34,18 @@ model AdminUser {
 }
 
 model Member {
-  id        String         @id @default(cuid())
-  firstName String
-  lastName  String
-  email     String?        @unique
-  phone     String?
-  plan      MembershipPlan @default(MJESEČNO)
-  expiresAt DateTime?
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
-  payments  Payment[]
-  visits    Visit[]
+  id                 String         @id @default(cuid())
+  firstName          String
+  lastName           String
+  email              String?        @unique
+  phone              String?
+  plan               MembershipPlan @default(MJESEČNO)
+  expiresAt          DateTime?
+  smsReminderSentFor DateTime?
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  payments           Payment[]
+  visits             Visit[]
 
   @@index([lastName, firstName])
   @@index([expiresAt])
