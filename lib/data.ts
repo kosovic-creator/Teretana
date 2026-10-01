@@ -26,6 +26,21 @@ export async function getMembers() {
   catch { return []; }
 }
 
+export async function getActiveVisits() {
+  const startOfDay = new Date();
+  startOfDay.setHours(0, 0, 0, 0);
+
+  try {
+    return await db.visit.findMany({
+      where: { checkedOutAt: null, checkedIn: { gte: startOfDay } },
+      include: { member: true },
+      orderBy: { checkedIn: "desc" },
+    });
+  } catch {
+    return [];
+  }
+}
+
 export async function getMember(id: string) {
   return db.member.findUnique({ where: { id } });
 }
