@@ -1,5 +1,9 @@
 import { db } from "@/lib/db";
 
+export function isMembershipActive(expiresAt: Date | null | undefined, now = new Date()) {
+  return !expiresAt || expiresAt.getTime() >= now.getTime();
+}
+
 export async function getDashboardData() {
   try {
     const now = new Date();

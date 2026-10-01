@@ -1,16 +1,19 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AlertCircle, CreditCard, ScanLine, UserCheck, Users } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
-import { getDashboardData } from "@/lib/data";
+import { getDashboardData, isMembershipActive } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 const money = new Intl.NumberFormat("sr-Latn-ME", { style: "currency", currency: "EUR" });
 
 export default async function DashboardPage() {
   const data = await getDashboardData();
-  const now = Date.now();
-  const active = data.members.filter((m) => m.expiresAt && m.expiresAt.getTime() >= now).length;
-  const expiring = data.members.filter((m) => m.expiresAt && m.expiresAt.getTime() >= now && m.expiresAt.getTime() <= now + 7 * 86400000).length;
+  const now = new Date();
+  const active = data.members.filter((member) => isMembershipActive(member.expiresAt, now)).length;
+  const expiring = data.members.filter((member) => {
+    if (!member.expiresAt) return false;
+    return member.expiresAt.getTime() >= now.getTime() && member.expiresAt.getTime() <= now.getTime() + 7 * 86400000;
+  }).length;
   const stats = [
     { label: "Aktivnih članova", value: active, icon: UserCheck },
     { label: "Ukupno članova", value: data.members.length, icon: Users },
