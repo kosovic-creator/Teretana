@@ -29,11 +29,37 @@ export async function createMember(formData: FormData) {
   redirect("/members");
 }
 
+export async function updateMember(formData: FormData) {
+  const memberId = z.string().min(1).parse(formData.get("memberId"));
+  const parsed = memberSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) redirect(`/members/${memberId}/edit?error=invalid`);
+  await db.member.update({
+    where: { id: memberId },
+    data: {
+      ...parsed.data,
+      expiresAt: parsed.data.expiresAt ? new Date(`${parsed.data.expiresAt}T12:00:00`) : null,
+    },
+  });
+  revalidatePath("/");
+  revalidatePath("/members");
+  redirect("/members");
+}
+
+export async function deleteMember(formData: FormData) {
+  const memberId = z.string().min(1).parse(formData.get("memberId"));
+  await db.member.delete({ where: { id: memberId } });
+  revalidatePath("/");
+  revalidatePath("/members");
+  revalidatePath("/payments");
+  redirect("/members");
+}
+
 const paymentSchema = z.object({
   memberId: z.string().min(1),
   amount: z.coerce.number().positive(),
   method: z.enum(["CASH", "CARD", "TRANSFER"]),
   expiresAt: z.string().optional(),
+  paidAt: z.string().optional(),
 });
 
 export async function createPayment(formData: FormData) {
@@ -47,6 +73,38 @@ export async function createPayment(formData: FormData) {
   ]);
   revalidatePath("/");
   revalidatePath("/members");
+  revalidatePath("/payments");
+  redirect("/payments");
+}
+
+export async function updatePayment(formData: FormData) {
+  const paymentId = z.string().min(1).parse(formData.get("paymentId"));
+  const parsed = paymentSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) redirect(`/payments/${paymentId}/edit?error=invalid`);
+  await db.$transaction([
+    db.payment.update({
+      where: { id: paymentId },
+      data: {
+        memberId: parsed.data.memberId,
+        amount: parsed.data.amount,
+        method: parsed.data.method,
+        ...(parsed.data.paidAt ? { paidAt: new Date(`${parsed.data.paidAt}T12:00:00`) } : {}),
+      },
+    }),
+    ...(parsed.data.expiresAt
+      ? [db.member.update({ where: { id: parsed.data.memberId }, data: { expiresAt: new Date(`${parsed.data.expiresAt}T12:00:00`) } })]
+      : []),
+  ]);
+  revalidatePath("/");
+  revalidatePath("/members");
+  revalidatePath("/payments");
+  redirect("/payments");
+}
+
+export async function deletePayment(formData: FormData) {
+  const paymentId = z.string().min(1).parse(formData.get("paymentId"));
+  await db.payment.delete({ where: { id: paymentId } });
+  revalidatePath("/");
   revalidatePath("/payments");
   redirect("/payments");
 }

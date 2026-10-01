@@ -21,3 +21,19 @@ export async function getMembers() {
   try { return await db.member.findMany({ orderBy: [{ lastName: "asc" }, { firstName: "asc" }] }); }
   catch { return []; }
 }
+
+export async function getMember(id: string) {
+  return db.member.findUnique({ where: { id } });
+}
+
+export async function getPayments() {
+  try {
+    return await db.payment.findMany({ orderBy: { paidAt: "desc" }, include: { member: true } });
+  } catch {
+    return [];
+  }
+}
+
+export async function getPayment(id: string) {
+  return db.payment.findUnique({ where: { id }, include: { member: true } });
+}
