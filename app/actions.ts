@@ -187,32 +187,35 @@ export async function deletePayment(formData: FormData) {
   redirect("/payments");
 }
 
-export async function createVisit(formData: FormData) {
-  const memberId = z.string().min(1).parse(formData.get("memberId"));
+export async function createVisit(memberId: string) {
+  const parsedMemberId = z.string().min(1).safeParse(memberId);
+  if (!parsedMemberId.success) return { success: false as const, message: "Odaberi člana." };
   const startOfDay = new Date();
   startOfDay.setHours(0, 0, 0, 0);
   const activeVisit = await db.visit.findFirst({
-    where: { memberId, checkedOutAt: null, checkedIn: { gte: startOfDay } },
+    where: { memberId: parsedMemberId.data, checkedOutAt: null, checkedIn: { gte: startOfDay } },
   });
   if (activeVisit) {
-    revalidatePath("/visits");
-    redirect("/visits");
+    return { success: false as const, message: "Član je već evidentiran kao prisutan." };
   }
-  await db.visit.create({ data: { memberId } });
-  revalidatePath("/");
-  revalidatePath("/visits");
-  redirect("/visits");
-}
-
-export async function checkOutVisit(formData: FormData) {
-  const visitId = z.string().min(1).parse(formData.get("visitId"));
-  const startOfDay = new Date();
-  startOfDay.setHours(0, 0, 0, 0);
-  await db.visit.updateMany({
-    where: { id: visitId, checkedOutAt: null, checkedIn: { gte: startOfDay } },
-    data: { checkedOutAt: new Date() },
+  const visit = await db.visit.create({
+    data: { memberId: parsedMemberId.data },
+    include: { member: true },
   });
   revalidatePath("/");
-  revalidatePath("/visits");
-  redirect("/visits");
+  return { success: true as const, visit };
+}
+
+export async function checkOutVisit(visitId: string) {
+  const parsedVisitId = z.string().min(1).safeParse(visitId);
+  if (!parsedVisitId.success) return { success: false as const, message: "Dolazak nije ispravan." };
+  const startOfDay = new Date();
+  startOfDay.setHours(0, 0, 0, 0);
+  const result = await db.visit.updateMany({
+    where: { id: parsedVisitId.data, checkedOutAt: null, checkedIn: { gte: startOfDay } },
+    data: { checkedOutAt: new Date() },
+  });
+  if (!result.count) return { success: false as const, message: "Ovaj dolazak više nije aktivan." };
+  revalidatePath("/");
+  return { success: true as const };
 }
