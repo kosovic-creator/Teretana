@@ -38,7 +38,13 @@ function formatDate(value: string | null) {
   return new Intl.DateTimeFormat("sr-Latn-ME", { day: "2-digit", month: "long", year: "numeric" }).format(new Date(`${value}T12:00:00`));
 }
 
-export function PaymentForm({ members }: { members: MemberOption[] }) {
+type PaymentFormProps = {
+  members: MemberOption[];
+  errorMessage?: string;
+  fieldErrors?: Partial<Record<"memberId" | "amount" | "method" | "expiresAt", string>>;
+};
+
+export function PaymentForm({ members, errorMessage, fieldErrors = {} }: PaymentFormProps) {
   const [memberId, setMemberId] = useState("");
   const [amount, setAmount] = useState("30");
   const [expiresAt, setExpiresAt] = useState("");
@@ -64,7 +70,7 @@ export function PaymentForm({ members }: { members: MemberOption[] }) {
       : "Istekla";
 
   return (
-    <form action={createPayment} className="grid gap-5 sm:grid-cols-2">
+    <form action={createPayment} className="grid gap-5 sm:grid-cols-2" noValidate>
       <label className="grid gap-2 text-sm font-semibold sm:col-span-2">
         Član
         <select
@@ -72,11 +78,13 @@ export function PaymentForm({ members }: { members: MemberOption[] }) {
           value={memberId}
           onChange={(event) => selectMember(event.target.value)}
           required
+          aria-invalid={Boolean(fieldErrors.memberId)}
           className="h-10 rounded-lg border bg-background px-3"
         >
           <option value="">Izaberi člana</option>
           {members.map((member) => <option key={member.id} value={member.id}>{member.firstName} {member.lastName}</option>)}
         </select>
+        {fieldErrors.memberId && <span className="text-xs font-medium text-red-600">{fieldErrors.memberId}</span>}
       </label>
 
       {selectedMember && (
@@ -89,19 +97,31 @@ export function PaymentForm({ members }: { members: MemberOption[] }) {
 
       <label className="grid gap-2 text-sm font-semibold">
         Iznos (€)
-        <Input name="amount" type="number" min="0.01" step="0.01" value={amount} onChange={(event) => setAmount(event.target.value)} required />
+        <Input
+          name="amount"
+          type="number"
+          min="0.01"
+          step="0.01"
+          value={amount}
+          onChange={(event) => setAmount(event.target.value)}
+          required
+          aria-invalid={Boolean(fieldErrors.amount)}
+        />
+        {fieldErrors.amount && <span className="text-xs font-medium text-red-600">{fieldErrors.amount}</span>}
       </label>
       <label className="grid gap-2 text-sm font-semibold">
         Način plaćanja
-        <select name="method" className="h-10 rounded-lg border bg-background px-3">
+        <select name="method" className="h-10 rounded-lg border bg-background px-3" aria-invalid={Boolean(fieldErrors.method)}>
           <option value="CASH">Gotovina</option>
           <option value="CARD">Kartica</option>
           <option value="TRANSFER">Transfer</option>
         </select>
+        {fieldErrors.method && <span className="text-xs font-medium text-red-600">{fieldErrors.method}</span>}
       </label>
       <label className="grid gap-2 text-sm font-semibold">
         Novi period važi do
-        <Input name="expiresAt" type="date" value={expiresAt} onChange={(event) => setExpiresAt(event.target.value)} required />
+        <Input name="expiresAt" type="date" value={expiresAt} onChange={(event) => setExpiresAt(event.target.value)} required aria-invalid={Boolean(fieldErrors.expiresAt)} />
+        {fieldErrors.expiresAt && <span className="text-xs font-medium text-red-600">{fieldErrors.expiresAt}</span>}
       </label>
       <div className="self-end">
         <Button disabled={!memberId} type="submit">Sačuvaj uplatu</Button>
