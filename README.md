@@ -26,15 +26,15 @@ Za autentifikaciju postavi `AUTH_SECRET`, `ADMIN_EMAIL` i `ADMIN_PASSWORD` u `.e
 
 ## SMS upozorenja za istek članarine
 
-Za slanje SMS-a postavi `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN` i `TWILIO_FROM_NUMBER` u `.env`. Brojevi članova trebaju biti uneseni u međunarodnom formatu, npr. `+387...`. `MEMBERSHIP_TIME_ZONE` određuje lokalni datum isteka (podrazumijevano `Europe/Sarajevo`).
+Za slanje SMS-a postavi `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_FROM_NUMBER` i `CRON_SECRET` među Environment Variables u Vercel projektu za Production, pa ponovo deployaj aplikaciju. Lokalni `.env` se ne koristi u produkciji. Brojevi članova trebaju biti uneseni u međunarodnom formatu, npr. `+387...`. `MEMBERSHIP_TIME_ZONE` određuje lokalni datum isteka (podrazumijevano `Europe/Sarajevo`).
 
-Postavi `CRON_SECRET` kao nasumičnu tajnu i podesi cron servis da jednom dnevno pozove `GET /api/cron/membership-reminders` uz zaglavlje `Authorization: Bearer <CRON_SECRET>`. Primjer poziva:
+Vercel Cron je podešen u `vercel.json` da svakog dana u 06:00 UTC pozove `/api/cron/membership-reminders`. Vercel automatski šalje `Authorization: Bearer <CRON_SECRET>` zaglavlje kada je `CRON_SECRET` postavljen u produkcijskom okruženju. Raspored važi za Production deployment. Na Vercel Hobby planu cron se izvršava najviše jednom dnevno, a vrijeme izvršavanja može odstupati od zakazanog.
 
 ```powershell
 Invoke-WebRequest -Method Get -Uri "https://tvoja-domena/api/cron/membership-reminders" -Headers @{ Authorization = "Bearer $env:CRON_SECRET" }
 ```
 
-Ruta šalje poruku članovima čije članstvo ističe narednog lokalnog dana. Ponovni poziv za isti datum ne šalje ponovo već evidentirane poruke; nakon uspješne obnove članarine upozorenje se šalje za novi datum isteka.
+Ruta šalje poruku članovima čije članstvo ističe narednog lokalnog dana, dakle podsjetnik stiže dan prije isteka, a ne u trenutku isteka. Ponovni poziv za isti datum ne šalje ponovo već evidentirane poruke; nakon uspješne obnove članarine upozorenje se šalje za novi datum isteka.
 
 ## Komande
 
