@@ -4,13 +4,20 @@ import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { normalizeSmsPhone } from "@/lib/phone";
 
 const optionalText = z.string().trim().transform((value) => value || undefined);
 const memberSchema = z.object({
   firstName: z.string().trim().min(2, "Ime mora imati najmanje 2 slova."),
   lastName: z.string().trim().min(2, "Prezime mora imati najmanje 2 slova."),
   email: z.union([z.string().trim().email("Email nije ispravan."), z.literal("")]).transform((value) => value || undefined),
-  phone: optionalText,
+  phone: optionalText.transform((value, ctx) => {
+    if (!value) return undefined;
+    try { return normalizeSmsPhone(value); } catch {
+      ctx.addIssue({ code: "custom", message: "Telefon unesi u međunarodnom formatu, npr. +382... ili +387... ." });
+      return z.NEVER;
+    }
+  }),
   plan: z.enum(["MJESEČNO", "TROMJESEČNO", "GODIŠNJE"], { message: "Odaberi ispravan plan članarine." }),
   expiresAt: z.string().optional(),
 });
@@ -20,7 +27,7 @@ function getValidationErrorMessage(error: z.ZodError) {
     firstName: "Ime mora imati najmanje 2 slova.",
     lastName: "Prezime mora imati najmanje 2 slova.",
     email: "Email nije ispravan.",
-    phone: "Telefon nije ispravan.",
+    phone: "Telefon unesi u međunarodnom formatu, npr. +382... ili +387... .",
     plan: "Odaberi ispravan plan članarine.",
     memberId: "Nije odabran član.",
     amount: "Iznos mora biti pozitivan broj.",
@@ -45,7 +52,7 @@ function getFieldErrors(error: z.ZodError): Record<string, string> {
     firstName: "Ime mora imati najmanje 2 slova.",
     lastName: "Prezime mora imati najmanje 2 slova.",
     email: "Email nije ispravan.",
-    phone: "Telefon nije ispravan.",
+    phone: "Telefon unesi u međunarodnom formatu, npr. +382... ili +387... .",
     plan: "Odaberi ispravan plan članarine.",
     memberId: "Nije odabran član.",
     amount: "Iznos mora biti pozitivan broj.",

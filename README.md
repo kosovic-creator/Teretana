@@ -38,6 +38,14 @@ Ruta šalje poruku članovima čije članstvo ističe narednog lokalnog dana, da
 
 ## Komande
 
+### SMS dijagnostika
+
+Autorizovani poziv `/api/cron/membership-reminders?dryRun=1` provjerava bazu i vraća `date`, `matched`, `eligible` i `invalidPhones`, bez slanja poruka. `eligible: 0` znači da nema neposlatih podsjetnika za sutrašnji datum. Ova provjera ne potvrđuje Twilio pristupne podatke.
+
+Poziv bez `dryRun` vraća i `errors` (ID člana i razlog greške, uključujući Twilio kod), te `accepted` (Twilio SID i početni status). `sent` označava prihvaćene i evidentirane zahtjeve; status `queued` još ne potvrđuje isporuku. Isporuku provjeri u Twilio Messaging Logs koristeći vraćeni SID. Ne ponavljaj slanje već prihvaćene poruke radi provjere isporuke.
+
+Telefoni se normalizuju iz formata `00382...` u `+382...`, uz uklanjanje razmaka, crtica i zagrada. Lokalni brojevi bez pozivnog broja države se odbijaju. Poslije izmjene Vercel Environment Variables potreban je novi Production deployment.
+
 ```powershell
 pnpm.cmd dev                  # razvojni server
 pnpm.cmd typecheck            # TypeScript provjera
