@@ -40,6 +40,8 @@ Ruta šalje poruku članovima čije članstvo ističe narednog lokalnog dana, da
 
 ### SMS dijagnostika
 
+Na stranici Članovi dugme „Pošalji SMS podsjetnik“ šalje poruku samo izabranom članu, odmah, bez čekanja dnevnog cron-a. Potrebni su prijava administratora, telefon i datum isteka. Za već evidentiran podsjetnik dugme prikazuje „SMS poslat“ i onemogućeno je do promjene datuma isteka. Ručno slanje se evidentira kao i automatsko, pa ga cron preskače. Poruka „SMS je prihvaćen za slanje“ znači prihvatanje zahtjeva, a ne potvrdu isporuke.
+
 Autorizovani poziv `/api/cron/membership-reminders?dryRun=1` provjerava bazu i vraća `date`, `matched`, `eligible` i `invalidPhones`, bez slanja poruka. `eligible: 0` znači da nema neposlatih podsjetnika za sutrašnji datum. Ova provjera ne potvrđuje Twilio pristupne podatke.
 
 Poziv bez `dryRun` vraća i `errors` (ID člana i razlog greške, uključujući Twilio kod), te `accepted` (Twilio SID i početni status). `sent` označava prihvaćene i evidentirane zahtjeve; status `queued` još ne potvrđuje isporuku. Isporuku provjeri u Twilio Messaging Logs koristeći vraćeni SID. Ne ponavljaj slanje već prihvaćene poruke radi provjere isporuke.

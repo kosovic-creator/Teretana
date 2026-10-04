@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Pencil, Plus, Users } from "lucide-react";
 import { deleteMember } from "@/app/actions";
 import { DeleteButton } from "@/components/delete-button";
+import { SmsReminderButton } from "@/components/sms-reminder-button";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -77,6 +78,11 @@ export default async function MembersPage() {
                       </Badge>
 
                       <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto">
+                        <SmsReminderButton
+                          memberId={member.id}
+                          available={Boolean(member.phone && member.expiresAt)}
+                          alreadySent={Boolean(member.expiresAt && member.smsReminderSentFor?.getTime() === member.expiresAt.getTime())}
+                        />
                         <Button asChild variant="outline" size="sm">
                           <Link href={`/members/${member.id}/edit`}>
                             <Pencil className="size-4" />
